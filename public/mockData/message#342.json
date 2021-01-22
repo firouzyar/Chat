@@ -1,0 +1,16 @@
+[
+  {
+    "id": 100038,
+    "time": "01/10/2021 14:20:34",
+    "text": "<strong>I'm hungry too!<strong> bla bla bla",
+    "senderName": "John",
+    "image": null
+  },
+  {
+    "id": 99976,
+    "time": "01/10/2021 14:20:20",
+    "text": "Pizza!",
+    "senderName": "Hannah",
+    "image": "https://pizza-brew.com/wp-content/uploads/2018/11/pcd.png"
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "id": 86,
+    "title": "group #21",
+    "previewText": "preview text will be here1...",
+    "lastSenderName": "John",
+    "group": true,
+    "muted": false,
+    "time": "01/10/2021 14:20:34",
+    "picture": "https://cdn.iconscout.com/icon/premium/png-256-thumb/profile-1506810-1278719.png"
+  },
+  {
+    "id": 6783,
+    "title": "John Travolta",
+    "previewText": "preview text will be here2...",
+    "group": false,
+    "muted": false,
+    "time": "01/10/2021 13:20:34",
+    "picture": "https://cdn.iconscout.com/icon/premium/png-256-thumb/profile-1506810-1278719.png"
+  }
+]

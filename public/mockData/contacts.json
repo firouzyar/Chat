@@ -1,0 +1,16 @@
+[
+  {
+    "id": 12039,
+    "firstName": "firstName1",
+    "lastName": "lastName1",
+    "profilePicture": "https://icons.iconarchive.com/icons/paomedia/small-n-flat/128/profile-icon.png",
+    "description": "Hey there! I am using WhatsApp"
+  },
+  {
+    "id": 3557,
+    "firstName": "firstName2",
+    "lastName": "lastName2",
+    "profilePicture": "https://icons.iconarchive.com/icons/paomedia/small-n-flat/128/profile-icon.png",
+    "description": "Hey there!"
+  },
+]
