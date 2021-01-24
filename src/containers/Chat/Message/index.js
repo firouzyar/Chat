@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import {getMessagesData} from "../../ustils/globalUtils";
+import {getMessagesData} from "../../../ustils/globalUtils";
 
-import apiService from "../../ustils/apiRequests";
+import apiService from "../../../ustils/apiRequests";
 // import data from "../../mockJson/message#5532.json"
 function Message(props) {
 

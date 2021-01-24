@@ -4,7 +4,7 @@ import {
    GET_THREADS_ERROR,
    SEARCH_THREADS,
  } from "./type";
- import apiService from "../../../ustils/apiRequests";
+ import apiService from "../../../../ustils/apiRequests";
 
 export function getThreadsStart() {
     return{

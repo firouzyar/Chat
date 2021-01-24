@@ -28,18 +28,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuAppBar() {
   const classes = useStyles();
-  const [auth, setAuth] = useState(true);
-  const [anchorEl, setAnchorEl] =useState(null);
-  const open = Boolean(anchorEl);
-
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <div className={classes.root}>
@@ -47,40 +35,8 @@ export default function MenuAppBar() {
         <Toolbar>
           <nav className={classes.nav}>
             <Button  variant="outlined" color="default" href="/" className={classes.navButton}>Home</Button>
-            <Button  variant="outlined" color="default" href="/archived" className={classes.navButton}>Archived</Button>
-            <Button  variant="outlined" color="default" href="/contact" className={classes.navButton}>Contacts</Button>
+            <Button  variant="outlined" color="default" href="/chat" className={classes.navButton}>Chat</Button>
           </nav>
-          {auth && (
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
-            </div>
-          )}
         </Toolbar>
       </AppBar>
     </div>
