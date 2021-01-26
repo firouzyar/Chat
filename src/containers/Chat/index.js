@@ -4,8 +4,6 @@ import {fetchThreads,searchThreads} from "../Chat/Threads/_redux/action";
 import {fetchMessage} from "../Chat/Message/_redux/action";
 import {fetProfile} from "../Chat/Profile/_redux/action";
 import {Loader} from "../../components/Loader/Loader"
-import Threads from "./Threads/index";
-import Search from "../../components/Search/Search";
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,7 +16,10 @@ import Profile from "./Profile/index";
 import Archived from "./Archived/index";
 import Contact from "./Contact/index";
 import Message from "./Message/index";
-import {useStyles} from './style.js'
+import Threads from "./Threads/index";
+import Search from "../../components/Search/Search";
+import {useStyles} from './style.js';
+
 
 const animationStyles = {
     slideInLeft: {

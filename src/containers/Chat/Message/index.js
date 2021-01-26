@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import parse from "html-react-parser";
-import { makeStyles } from '@material-ui/core/styles';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-import CheckIcon from '@material-ui/icons/Check';
-import {TimeChecker} from "../../../ustils/globalUtils";
-import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
-import SendRoundedIcon from '@material-ui/icons/SendRounded';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
+
+
 import {addMessage} from "./_redux/action";
 import moment from "moment";
 import uuid from 'react-uuid';
-import {useStyles} from './style.js'
-
-
+import {useStyles} from './style.js';
+import {SendMessage} from "../../../components/SendMessageForm/sendMessage"
+import MessageHolder from "../../../components/MessageHolder/MessageHolder";
+import { ProfilePreview } from "../../../components/ProfilePreview/ProfilePreview";
 function Message(props) {
     const classes = useStyles(props);
     let {messageDataProps,message,noMessage}=props;
     const dispatch = useDispatch();
     const ref = React.useRef(null);
     useEffect(()=>{
-       
     },[messageDataProps.id])
 
 
@@ -50,32 +42,11 @@ function Message(props) {
         e.target.reset();
         handleScroll();
     }
-    function messagedeliverdHandler(deliverd,isSeen){
-        if(deliverd ){
-            if(isSeen){
-                return  <DoneAllIcon className={classes.green} fontSize="small"/>  
-            }
-            else{
-                return  <DoneAllIcon className={classes.gray} fontSize="small"/>
-            }
-        }
-        else if(deliverd===false){
-            return <CheckIcon className={classes.gray} fontSize="small"/>
-        }
-        else if(deliverd===undefined){
-            return
-        }
-    }
+    
     return(
         <div className={classes.messageWrapper}>
             <div className={classes.profileInChat}>
-                <Avatar  
-                    src={messageDataProps.picture} 
-                    alt={messageDataProps.fistName} 
-                    className={classes.large} 
-                />
-                <span>{messageDataProps.title}</span>
-              
+                <ProfilePreview data={messageDataProps}/>
             </div>
                         
             {(message && message.length>0 && !noMessage) ?
@@ -83,17 +54,7 @@ function Message(props) {
                     {
                         message.map((item,index)=>{
                             return(
-                                <div key={index} className={classes.singleMessageWrapper} style={{direction:item.myMessage?"rtl":"ltr"}}>
-                                    <span className={classes.innerMessage} >
-                                        {item.senderName && <span className={classes.sender}>{item.senderName}</span>}
-                                        <p>{parse(item.text)}</p>
-                                        {item.image && <img src={item.image} alt={item.text} className={classes.img}/>}
-                                        <span className={classes.info}>
-                                            {messagedeliverdHandler(item.isDelivered,item.isSeen) }
-                                            {TimeChecker(item.time)}
-                                        </span>
-                                    </span>
-                                </div>
+                                <MessageHolder key={index} item={item}/> 
                             )
                         })
                     }
@@ -104,22 +65,7 @@ function Message(props) {
                 
             }
             <div className={classes.sendMessageWrapper}>
-                <form onSubmit={sendChat}>
-                    <TextField
-                        variant="outlined"
-                        id="message"
-                        fullWidth
-                        InputProps={{
-                            endAdornment: (
-                            <InputAdornment>
-                                <IconButton type="submit">
-                                    <SendRoundedIcon />
-                                </IconButton>
-                            </InputAdornment>
-                            )
-                        }}
-                    />
-                </form>
+                <SendMessage sendChat={sendChat}/>
             </div>
         </div>
     )
