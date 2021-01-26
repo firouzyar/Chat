@@ -8,7 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import moment from "moment";
+import {TimeChecker} from "../../ustils/globalUtils";
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Items ({data}) {
+function Items ({data,showMessage}) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const handleClick = (event) => {
@@ -44,25 +44,9 @@ function Items ({data}) {
         setAnchorEl(null);
       };
   
-      function TimeChecker(time){
-          let REFERENCE = moment(); 
-  
-          let TODAY = REFERENCE.clone().startOf('day');
-          let A_WEEK_OLD = REFERENCE.clone().subtract(7, 'days').startOf('day');
-          let result =""
-          if(moment(time).isSame(TODAY, 'd')){
-              result= time.substr(11)
-          }
-          else if(moment(time).isAfter(A_WEEK_OLD)){
-              result= moment().format('dddd');
-          }
-          else{
-              result= time.substr(1,10)
-          }
-          return result;
-    }
+     
     return(
-        <ListItem button component="div">
+        <ListItem button component="div" onClick={()=>showMessage(data)}>
             <ListItemAvatar>
                 <Avatar  className={classes.avatar} src={data.picture} alt={data.title} className={classes.large}/> 
             </ListItemAvatar>

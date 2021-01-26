@@ -37,7 +37,7 @@ export function getThreadsStart() {
     dispatch(getThreadsStart());
     return apiService.get("../mockData/threads.json")
       .then(response => {
-        dispatch(getThreadsData(response.data));
+        dispatch(getThreadsData(response.data.reverse()));
       })
       .catch(error => {
         dispatch(getThreadsError(error));

@@ -1,9 +1,9 @@
 import React,{useEffect,useState} from "react";
 import { useDispatch, useSelector,shallowEqual } from "react-redux";
 import {fetchThreads,searchThreads} from "../Chat/Threads/_redux/action";
+import {fetchMessage} from "../Chat/Message/_redux/action";
 import {fetProfile} from "../Chat/Profile/_redux/action";
 import {Loader} from "../../components/Loader/Loader"
-import { makeStyles } from '@material-ui/core/styles';
 import Threads from "./Threads/index";
 import Search from "../../components/Search/Search";
 import Paper from '@material-ui/core/Paper';
@@ -17,61 +17,23 @@ import Radium, {StyleRoot} from 'radium';
 import Profile from "./Profile/index";
 import Archived from "./Archived/index";
 import Contact from "./Contact/index";
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        position:"absolute",
-        top:"30px",
-        bottom:"30px",
-        left:"240px",
-        right:"240px",
-        overflow:"hidden",
-    },
-    large: {
-        width: theme.spacing(7),
-        height: theme.spacing(7),
-        cursor:"pointer",
-    },
-    chatWrapper:{
-        display:"flex",
-        height:"100%",
-    },
-    container:{
-        flex:"1",
-        height:"100%",
-    },
-    messageWrapper:{
-        flex:"3",
-        height:"100%",
-    },
-    searchWrapper:{
-        padding:"10px",
-        background:"#f6f6f6",
-    },
-    settingWrapper:{
-        display:"flex",
-        justifyContent:"space-between",
-        alignItems:"center",
-        background:"#ededed",
-        padding:"10px 20px",
-    },
-    animationWrapper:{
-        height:"100%",
-    },
-    
-}));
-const styles = {
+import Message from "./Message/index";
+import {useStyles} from './style.js'
+
+const animationStyles = {
     slideInLeft: {
         animationDuration: '600ms',
       animationName: Radium.keyframes(slideInLeft, 'slideInLeft')
     }
 }    
 
-function Chat(){
-    const classes = useStyles();
+function Chat(props){
+    const classes = useStyles(props);
     const {isLoading,copyThreads } = useSelector((state) => state.threads,shallowEqual);
     const {profile} = useSelector((state) => state.profile,shallowEqual);
+    const {message,noMessage} = useSelector((state) => state.message,shallowEqual);
     const [ui,setUi] = useState("threads");
+    const [messageData,setMessageData] = useState({});
     const dispatch = useDispatch();
 
 
@@ -80,6 +42,11 @@ function Chat(){
       dispatch(fetProfile());
     }, [dispatch]);
 
+    //show message of a chat bace on id
+    function handleMessage(data){
+        setMessageData(data)
+        dispatch(fetchMessage(data.id))
+    }
     //search threads
     function onSearchThreads(event){
         dispatch(searchThreads(event.target.value.toLowerCase()));   
@@ -127,14 +94,14 @@ function Chat(){
                         </div>
                         {isLoading ? 
                         <Loader/>:
-                        <Threads threads={copyThreads.reverse()}/>
+                        <Threads threads={copyThreads} showMessage={handleMessage}/>
                         }
                     </>
                 )
             case "profile":
                 return(
                     <StyleRoot style={{height:"100%"}}>
-                        <div style={styles.slideInLeft} className={classes.animationWrapper} >
+                        <div style={animationStyles.slideInLeft} className={classes.animationWrapper} >
                             <Profile profile={profile} backHandler={showThreadsdHandler}/>
                         </div>
                     </StyleRoot>
@@ -142,7 +109,7 @@ function Chat(){
             case "archived":
                 return(
                     <StyleRoot style={{height:"100%"}}>
-                        <div style={styles.slideInLeft} className={classes.animationWrapper} >
+                        <div style={animationStyles.slideInLeft} className={classes.animationWrapper} >
                             <Archived  backHandler={showArchivedHandler}/>
                         </div>
                     </StyleRoot>
@@ -150,7 +117,7 @@ function Chat(){
             case "contact":
                 return(
                     <StyleRoot style={{height:"100%"}}>
-                        <div style={styles.slideInLeft} className={classes.animationWrapper} >
+                        <div style={animationStyles.slideInLeft} className={classes.animationWrapper} >
                             <Contact backHandler={showNewChatHandler}/>
                         </div>
                     </StyleRoot>
@@ -179,7 +146,7 @@ function Chat(){
                         </div>
                         {isLoading ? 
                         <Loader/>:
-                        <Threads threads={copyThreads.reverse()}/>
+                        <Threads threads={copyThreads}/>
                         }
                     </>
                 )
@@ -192,7 +159,10 @@ function Chat(){
                     {renderUi()}
                 </div>
                 <div className={classes.messageWrapper}>
-                    asdasd
+                    {Object.keys(messageData).length !== 0 && messageData.constructor === Object ?
+                        <Message messageDataProps={messageData} message={message} noMessage={noMessage}/>:
+                        <div className={classes.noChatSelected}>Welcome to Chat Application</div>
+                    }
                 </div>
             </div>
         </Paper>

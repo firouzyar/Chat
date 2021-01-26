@@ -1,55 +1,13 @@
 import React from "react";
-import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Avatar from '@material-ui/core/Avatar';
 import { zoomIn,slideInDown } from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
-const useStyles = makeStyles((theme) => ({
-    root: {
-        height:"100%",
-        background:"#eee",
-    },
-    header:{
-        background:"#0bc1ea",
-        color:"#fff",
-        display: "flex",
-        alignItems: "center",
-        padding:" 15px",
-    },
-    backIcon:{
-        color:"#fff",
-        marginRight:"10px",
-    },
-    ImageContainer:{
-        display:"flex",
-        justifyContent:"center",
-        padding:"30px 15px",
-    },
-    large: {
-        width: theme.spacing(25),
-        height: theme.spacing(25),
-    },
-    infoContainer:{
-        background:"#fff",
-        margin:"15px 0",
-        padding:"15px",
-        display:"flex",
-        flexDirection:"column",
-        "& p":{
-            margin:"15px 0 0 0",
-            fontSize:"20px",
-            color:"#949494",
-        },
-        "& span":{
-            color:"#0bc1ea",
-            fontSize:"14px"
-        }
-    }
+import {useStyles} from './style.js'
 
-}));
 
-const styles = {
+const animationStyles = {
     zoomIn: {
         animationDelay:"100ms",
         animationDuration: '1.2s',
@@ -64,7 +22,7 @@ const styles = {
 
 function Profile(props) {
     const {backHandler,profile} = props;
-    const classes = useStyles();
+    const classes = useStyles(props);
     return(
         <div className={classes.root}>
             <header className={classes.header}>
@@ -75,7 +33,7 @@ function Profile(props) {
             </header>
             <div className={classes.ImageContainer}>
                 <StyleRoot >
-                    <div style={styles.zoomIn}>
+                    <div style={animationStyles.zoomIn}>
                     <Avatar  
                         src={profile.picture} 
                         alt={profile.fistName} 
@@ -86,7 +44,7 @@ function Profile(props) {
             </div>
             <div >
                 <StyleRoot >
-                    <div style={styles.slideInDown}>
+                    <div style={animationStyles.slideInDown}>
                         <div className={classes.infoContainer}>
                             <span>Your Name</span>
                             <p>
