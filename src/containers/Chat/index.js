@@ -1,28 +1,31 @@
-import React,{useEffect,useState} from "react";
+import React,{useEffect,useState,Suspense, lazy} from "react";
 import { useDispatch, useSelector,shallowEqual } from "react-redux";
+//actions
 import {fetchThreads,searchThreads} from "../Chat/Threads/_redux/action";
 import {fetchContacts,searchContacts} from "../Chat/Contact/_redux/action";
 import {fetchArchived} from "../Chat/Archived/_redux/action";
 import {fetchMessage} from "../Chat/Message/_redux/action";
 import {fetProfile} from "../Chat/Profile/_redux/action";
 import {Loader} from "../../components/Loader/Loader";
+//components
+import Search from "../../components/Search/Search";
+import SettingMenu from "../../components/SettingMenu/Menu";
+//material component
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import ChatIcon from '@material-ui/icons/Chat';
-import SettingMenu from "../../components/SettingMenu/Menu"
+//utils
 import { slideInLeft } from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
-import Profile from "./Profile/index";
-import Archived from "./Archived/index";
-import Contact from "./Contact/index";
-import Message from "./Message/index";
-import Threads from "./Threads/index";
-import Search from "../../components/Search/Search";
 import {useStyles} from './style.js';
-
-
+//import with lazy
+const Profile = lazy(() => import('./Profile/index'));
+const Archived = lazy(() => import('./Archived/index'));
+const Contact = lazy(() => import('./Contact/index'));
+const Message = lazy(() => import('./Message/index'));
+const Threads = lazy(() => import('./Threads/index'));
 const animationStyles = {
     slideInLeft: {
         animationDuration: '600ms',
@@ -40,7 +43,6 @@ function Chat(props){
     const [ui,setUi] = useState("threads");
     const [messageData,setMessageData] = useState({});
     const dispatch = useDispatch();
-
 
     useEffect(() => {
       dispatch(fetchThreads());
@@ -105,7 +107,9 @@ function Chat(props){
                         </div>
                         {isLoading ? 
                         <Loader/>:
-                        <Threads threads={copyThreads} showMessage={handleMessage}/>
+                        <Suspense fallback={<Loader/>}>
+                            <Threads threads={copyThreads} showMessage={handleMessage}/>
+                        </Suspense>
                         }
                     </>
                 )
@@ -113,7 +117,9 @@ function Chat(props){
                 return(
                     <StyleRoot style={{height:"100%"}}>
                         <div style={animationStyles.slideInLeft} className={classes.animationWrapper} >
+                        <Suspense fallback={<Loader/>}>
                             <Profile profile={profile} backHandler={showThreadsdHandler}/>
+                        </Suspense> 
                         </div>
                     </StyleRoot>
                 )
@@ -121,7 +127,9 @@ function Chat(props){
                 return(
                     <StyleRoot style={{height:"100%"}}>
                         <div style={animationStyles.slideInLeft} className={classes.animationWrapper} >
+                        <Suspense fallback={<Loader/>}>
                             <Archived  backHandler={showThreadsdHandler} archives={archives} showMessage={handleMessage}/>
+                        </Suspense>
                         </div>
                     </StyleRoot>
                 )
@@ -129,12 +137,14 @@ function Chat(props){
                 return(
                     <StyleRoot style={{height:"100%"}}>
                         <div style={animationStyles.slideInLeft} className={classes.animationWrapper} >
+                        <Suspense fallback={<Loader/>}>
                             <Contact 
                                 backHandler={showThreadsdHandler} 
                                 contacts={copyContacts} 
                                 showMessage={handleMessage}
                                 onSearchContacts={onSearchContacts}
                             />
+                        </Suspense>
                         </div>
                     </StyleRoot>
                 )
@@ -162,7 +172,10 @@ function Chat(props){
                         </div>
                         {isLoading ? 
                         <Loader/>:
-                        <Threads threads={copyThreads}/>
+                        <Suspense fallback={<Loader/>}>
+                            <Threads threads={copyThreads}/>
+                        </Suspense>
+                        
                         }
                     </>
                 )
@@ -176,7 +189,10 @@ function Chat(props){
                 </div>
                 <div className={classes.messageWrapper}>
                     {Object.keys(messageData).length !== 0 && messageData.constructor === Object ?
-                        <Message messageDataProps={messageData} message={message} noMessage={noMessage}/>:
+                        <Suspense fallback={<Loader/>}>
+                            <Message messageDataProps={messageData} message={message} noMessage={noMessage}/>
+                        </Suspense>
+                        :
                         <div className={classes.noChatSelected}>Welcome to Chat Application</div>
                     }
                 </div>

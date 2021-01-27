@@ -8,7 +8,16 @@ const useStyles = makeStyles((theme)=>({
         bottom:"30px",
         left:"240px",
         right:"240px",
-        overflow:"hidden",
+        overflowY:"hidden",
+        [theme.breakpoints.down('md')]: {
+            top:"85px",
+            left:"80px",
+            right:"80px",
+        },
+        [theme.breakpoints.down('xs')]: {
+            left:"10px",
+            right:"10px"
+        }
     },
     large: {
         width: theme.spacing(7),
@@ -22,6 +31,9 @@ const useStyles = makeStyles((theme)=>({
     container:{
         flex:"1",
         height:"100%",
+        [theme.breakpoints.down('md')]: {
+            flex:"2",
+        }
     },
     messageWrapper:{
         flex:"3",

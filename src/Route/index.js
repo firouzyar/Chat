@@ -15,7 +15,7 @@ const NotFound = lazy(() => import('../containers/NotFound/index'));
 
 const Routes = () => (
     <Router history={history}>
-        <Suspense fallback={""}>
+        <Suspense fallback={"Loading..."}>
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route exact path="/chat" component={Chat}/>
