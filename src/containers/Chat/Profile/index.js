@@ -1,11 +1,10 @@
 import React from "react";
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 import Avatar from '@material-ui/core/Avatar';
 import { zoomIn,slideInDown } from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
-import {useStyles} from './style.js'
-
+import {useStyles} from './style.js';
+import {Header} from "../../../components/Header/Header";
 
 const animationStyles = {
     zoomIn: {
@@ -25,12 +24,7 @@ function Profile(props) {
     const classes = useStyles(props);
     return(
         <div className={classes.root}>
-            <header className={classes.header}>
-                <IconButton  className={classes.backIcon} onClick={backHandler}>
-                    <ArrowBackIcon/>
-                </IconButton>
-                <h1>Profile</h1>
-            </header>
+            <Header title="Profile" backHandler={backHandler}/>
             <div className={classes.ImageContainer}>
                 <StyleRoot >
                     <div style={animationStyles.zoomIn}>

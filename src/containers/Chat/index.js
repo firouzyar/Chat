@@ -1,9 +1,11 @@
 import React,{useEffect,useState} from "react";
 import { useDispatch, useSelector,shallowEqual } from "react-redux";
 import {fetchThreads,searchThreads} from "../Chat/Threads/_redux/action";
+import {fetchContacts,searchContacts} from "../Chat/Contact/_redux/action";
+import {fetchArchived} from "../Chat/Archived/_redux/action";
 import {fetchMessage} from "../Chat/Message/_redux/action";
 import {fetProfile} from "../Chat/Profile/_redux/action";
-import {Loader} from "../../components/Loader/Loader"
+import {Loader} from "../../components/Loader/Loader";
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
@@ -31,8 +33,10 @@ const animationStyles = {
 function Chat(props){
     const classes = useStyles(props);
     const {isLoading,copyThreads } = useSelector((state) => state.threads,shallowEqual);
+    const {archives } = useSelector((state) => state.archives,shallowEqual);
     const {profile} = useSelector((state) => state.profile,shallowEqual);
     const {message,noMessage} = useSelector((state) => state.message,shallowEqual);
+    const {copyContacts} = useSelector((state) => state.contacts,shallowEqual);
     const [ui,setUi] = useState("threads");
     const [messageData,setMessageData] = useState({});
     const dispatch = useDispatch();
@@ -41,6 +45,8 @@ function Chat(props){
     useEffect(() => {
       dispatch(fetchThreads());
       dispatch(fetProfile());
+      dispatch(fetchArchived());
+      dispatch(fetchContacts());
     }, [dispatch]);
 
     //show message of a chat bace on id
@@ -51,6 +57,10 @@ function Chat(props){
     //search threads
     function onSearchThreads(event){
         dispatch(searchThreads(event.target.value.toLowerCase()));   
+    }
+    //search threads
+    function onSearchContacts(event){
+        dispatch(searchContacts(event.target.value.toLowerCase()));   
     }
     //show profile
     function showProfileHandler(){
@@ -111,7 +121,7 @@ function Chat(props){
                 return(
                     <StyleRoot style={{height:"100%"}}>
                         <div style={animationStyles.slideInLeft} className={classes.animationWrapper} >
-                            <Archived  backHandler={showArchivedHandler}/>
+                            <Archived  backHandler={showThreadsdHandler} archives={archives} showMessage={handleMessage}/>
                         </div>
                     </StyleRoot>
                 )
@@ -119,7 +129,12 @@ function Chat(props){
                 return(
                     <StyleRoot style={{height:"100%"}}>
                         <div style={animationStyles.slideInLeft} className={classes.animationWrapper} >
-                            <Contact backHandler={showNewChatHandler}/>
+                            <Contact 
+                                backHandler={showThreadsdHandler} 
+                                contacts={copyContacts} 
+                                showMessage={handleMessage}
+                                onSearchContacts={onSearchContacts}
+                            />
                         </div>
                     </StyleRoot>
                 )

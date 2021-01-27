@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Items ({data,showMessage}) {
+function Items ({data,showMessage,archived,contact}) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const handleClick = (event) => {
@@ -48,9 +48,14 @@ function Items ({data,showMessage}) {
     return(
         <ListItem button component="div" onClick={()=>showMessage(data)}>
             <ListItemAvatar>
-                <Avatar  className={classes.avatar} src={data.picture} alt={data.title} className={classes.large}/> 
+                <Avatar  className={classes.avatar} src={contact?data.profilePicture:data.picture}  className={classes.large}/> 
             </ListItemAvatar>
-            <ListItemText primary={data.title} secondary={data.lastSenderName ? `${data.lastSenderName} : ${data.previewText}` : data.previewText } />
+            {contact ?
+                <ListItemText primary={`${data.firstName} ${data.lastName}`} secondary={data.description} />
+                :
+                <ListItemText primary={data.title} secondary={data.lastSenderName ? `${data.lastSenderName} : ${data.previewText}` : data.previewText } />
+            }
+            {!contact && 
             <div className={classes.moreOption}>
                 <div>
                 {data.muted &&
@@ -67,10 +72,16 @@ function Items ({data,showMessage}) {
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
-                >
+                >   
+                    {archived ? 
+                    <MenuItem  onClick={handleClose}>
+                        Unarchive chat
+                    </MenuItem>:
                     <MenuItem  onClick={handleClose}>
                         Archive chat
                     </MenuItem>
+                    }
+                    
                     <MenuItem  onClick={handleClose}>
                         Delete chat
                     </MenuItem>
@@ -82,6 +93,8 @@ function Items ({data,showMessage}) {
                 </div>
                 <p>{TimeChecker(data.time)}</p>
             </div>
+            }
+            
         </ListItem>
     )
 }

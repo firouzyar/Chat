@@ -6,6 +6,10 @@ const useStyles = makeStyles((theme)=>({
         overflowY:"scroll",
         height:"100%",
     },
+    searchWrapper:{
+        padding:"10px",
+        background:"#f6f6f6",
+    },
 }));
 
 export { useStyles };
